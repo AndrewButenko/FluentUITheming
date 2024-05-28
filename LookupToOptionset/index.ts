@@ -1,11 +1,11 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import { RecordSelector, IRecordSelectorProps } from "./Components/RecordSelector";
 import * as React from "react";
+import { RecordSelector, IRecordSelectorProps } from "./RecordSelector";
 
 export class LookupToOptionset implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
-    private currentValue?: ComponentFramework.LookupValue[];
+	private currentValue?: ComponentFramework.LookupValue[];
 
     constructor() { }
 
@@ -19,35 +19,26 @@ export class LookupToOptionset implements ComponentFramework.ReactControl<IInput
 
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
         const props: IRecordSelectorProps = {
-            selectedRecordId: context.parameters.lookup.raw != null && context.parameters.lookup.raw.length > 0 ?
-                context.parameters.lookup.raw[0].id : undefined,
-            onChange: (selectedRecordId: string | undefined, selectedRecordName: string | undefined) => {
-                if (!selectedRecordId) {
-                    this.currentValue = undefined;
-                } else {
-                    this.currentValue = [{
-                        id: selectedRecordId,
-                        name: selectedRecordName,
-                        entityType: context.parameters.lookup.getTargetEntityType()
-                    }];
-                }
-
-                this.notifyOutputChanged();
-            },
+            value: context.parameters.lookup.raw == null || context.parameters.lookup.raw.length === 0 ? undefined : context.parameters.lookup.raw[0],
             disabled: context.mode.isControlDisabled,
+            utility: context.utils,
+            webApi: context.webAPI,
             entityName: context.parameters.lookup.getTargetEntityType(),
-            utils: context.utils,
-            webApi: context.webAPI
+            onChange: (value: ComponentFramework.LookupValue | undefined) => {
+                this.currentValue = value ? [value] : undefined;
+                this.notifyOutputChanged();
+            }
         };
+
         return React.createElement(
             RecordSelector, props
         );
     }
 
     public getOutputs(): IOutputs {
-        return {
-            lookup: this.currentValue
-        };
+		return {
+			lookup: this.currentValue
+		};
     }
 
     public destroy(): void {
