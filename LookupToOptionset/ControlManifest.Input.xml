@@ -6,6 +6,7 @@
       <code path="index.ts" order="1"/>
       <platform-library name="React" version="16.8.6" />
       <platform-library name="Fluent" version="8.29.0" />
+      <platform-library name="Fluent" version="9.46.2" />    
     </resources>
     <feature-usage>
       <uses-feature name="Device.captureAudio" required="true" />
