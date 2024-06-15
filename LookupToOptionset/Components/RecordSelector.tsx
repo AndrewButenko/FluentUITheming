@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Spinner } from '@fluentui/react';
 import { DropdownOld } from './DropdownOld';
 import { DropdownNew } from './DropdownNew';
+import { Theme } from '@fluentui/react-components';
 
 export interface IRecordSelectorProps {
   value: ComponentFramework.LookupValue | null;
@@ -10,7 +11,7 @@ export interface IRecordSelectorProps {
   webApi: ComponentFramework.WebApi;
   entityName: string;
   onChange: (value: ComponentFramework.LookupValue | null) => void;
-  theme: ComponentFramework.FluentDesignState | undefined;
+  theme?: Theme;
 }
 
 export const RecordSelector: React.FC<IRecordSelectorProps> = (props) => {
@@ -50,7 +51,7 @@ export const RecordSelector: React.FC<IRecordSelectorProps> = (props) => {
 
   return (
     <DropdownNew
-      theme={props.theme.tokenTheme}
+      theme={props.theme}
       disabled={props.disabled}
       value={props.value}
       availableOptions={availableOptions}

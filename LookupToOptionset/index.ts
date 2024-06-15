@@ -29,7 +29,7 @@ export class LookupToOptionset implements ComponentFramework.ReactControl<IInput
                 this.currentValue = value ? [value] : null;
                 this.notifyOutputChanged();
             },
-            theme: context.fluentDesignLanguage
+            theme: context.fluentDesignLanguage?.tokenTheme
         };
 
         return React.createElement(
